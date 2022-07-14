@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CallRetrofit();
+                UpdateRetrofitData();
             }
         });
 
@@ -85,6 +87,38 @@ public class MainActivity extends AppCompatActivity {
         PostRequestApi postRequestApi = retrofit.create(PostRequestApi.class);
 
         PostModel postModel = new PostModel("post5", "Post Charged Successfully");
+
+        Call<PostModel> call = postRequestApi.UpdateData(postModel);
+        Call<PostModel> call1 = postRequestApi.PatchData(postModel);
+
+        call1.enqueue(new Callback<PostModel>() {
+            @Override
+            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+                txt.setText(response.body().getJson().getData());
+
+                Toast.makeText(MainActivity.this, "code: " +response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<PostModel> call, Throwable t) {
+
+            }
+        });
+        
+
+        call.enqueue(new Callback<PostModel>() {
+            @Override
+            public void onResponse(Call<PostModel> call, Response<PostModel> response) {
+                txt.setText(response.body().getJson().getData());
+
+                Toast.makeText(MainActivity.this, "code: "+response.code(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<PostModel> call, Throwable t) {
+
+            }
+        });
 
     }
 }
