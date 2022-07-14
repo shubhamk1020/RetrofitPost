@@ -73,4 +73,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    private  void UpdateRetrofitData(){
+
+        String postBody = ed1.getText().toString();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://httpbin.org/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        PostRequestApi postRequestApi = retrofit.create(PostRequestApi.class);
+
+        PostModel postModel = new PostModel("post5", "Post Charged Successfully");
+
+    }
 }
